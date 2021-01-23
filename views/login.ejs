@@ -1,0 +1,32 @@
+<div class="row mt-5">
+    <div class="col-md-6 m-auto">
+        <div class="card card-body">
+            <h1 class="text-center"><i class="fas fa-sign-in-alt"></i>LOGIN</h1>
+            <% if(success_msg != ''){ %>
+                <span class="badge bg-danger text-light"><%=success_msg %></span>
+
+           <% } %>
+
+           <% if(error != ''){ %>
+            <span class="badge bg-danger text-light"><%=error %></span>
+
+       <% } %>
+            <form action="/users/login" method="post">
+
+                <div class="form-group mb-3">
+                    <label class="form-label" >Email</label>
+                    <input class="form-control" name="email" type="email" placeholder="Enter Email">
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label" >Password</label>
+                    <input class="form-control" name="password" type="password" placeholder="Enter your Password">
+                </div>
+
+                <div class="form-group mb-3">
+                    <button class="btn btn-danger form-control">Login</button>
+                </div>
+            </form>
+            <p>No Account ? <a href="/users/register">Register</a></p>
+        </div>
+    </div>
+</div>
