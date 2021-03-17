@@ -7,14 +7,11 @@ const flash = require('connect-flash')
 
 const app = express();
 
-require('dotenv').config();
-
 //passport config
 require('./config/passport')(passport)
 
 //mongoose
-const url = process.env.MONGO_URL
-
+const url = `mongodb+srv://InYuusha:qwertyasdzx1234@cluster0.jsh9b.mongodb.net/login_cred?retryWrites=true&w=majority`
 mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology: true })
 .then(()=>console.log(`Server connected to the database`))
 .catch(err=>console.log(err))
@@ -24,7 +21,7 @@ app.use(express.urlencoded({extended:true}))
 
 //express session
 app.use(session({
-    secret:process.env.SECRET,
+    secret:'secret',
     resave:true,
     saveUninitialized:true
 
