@@ -4,7 +4,7 @@
   "description": "A node login system",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "node server.js"
   },
   "author": "InYuusha",
   "license": "ISC",
@@ -20,5 +20,8 @@
     "mongoose": "^5.11.13",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0"
+  },
+  "engines": {
+    "node": "10.16.0"
   }
 }
