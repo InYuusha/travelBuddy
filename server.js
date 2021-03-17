@@ -7,11 +7,14 @@ const flash = require('connect-flash')
 
 const app = express();
 
+require('dotenv').config();
+
 //passport config
 require('./config/passport')(passport)
 
 //mongoose
-const url = `mongodb+srv://InYuusha:qwertyasdzx1234@cluster0.jsh9b.mongodb.net/login_cred?retryWrites=true&w=majority`
+const url = process.env.MONGO_URL
+
 mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology: true })
 .then(()=>console.log(`Server connected to the database`))
 .catch(err=>console.log(err))
@@ -21,7 +24,7 @@ app.use(express.urlencoded({extended:true}))
 
 //express session
 app.use(session({
-    secret:'secret',
+    secret:process.env.SECRET,
     resave:true,
     saveUninitialized:true
 
@@ -45,11 +48,25 @@ app.use((req,res,next)=>{
 app.set('view engine','ejs')
 app.use(expressLayout)
 
+//check if the user is authenticated
+function isAuth(req,res,next){
+    if(req.user){
+        next()
+
+    }
+    else{
+        req.flash('error',"Dont try to be smart")
+        res.redirect('/users/login')
+    }
+}
+
 //routes
 app.use('/', require('./routes/home.js'))
-app.get('/dashboard',(req,res)=>{
+//protected route
+app.get('/dashboard',isAuth,(req,res)=>{
     res.render('dashboard')
 })
+//login logout
 app.use('/users', require('./routes/routes.js'));
 
 
