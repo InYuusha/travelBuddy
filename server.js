@@ -42,6 +42,7 @@ app.use((req,res,next)=>{
     next()
 })
 
+//isAuthenticated
 app.use((req,res,next)=>{
     res.locals.isLoggedIn=req.isAuthenticated()
     next()
@@ -51,26 +52,17 @@ app.use((req,res,next)=>{
 app.set('view engine','ejs')
 app.use(expressLayout)
 
-//check if the user is authenticated
-function isAuth(req,res,next){
-    if(req.user){
-        next()
 
-    }
-    else{
-        req.flash('error',"Login required")
-        res.redirect('/users/login')
-    }
-}
 
-//routes
+//@ Login Register routes
+//@desc : routes for handling login registeration
+
 app.use('/', require('./routes/home.js'))
+
 //protected route
-app.get('/dashboard',isAuth,(req,res)=>{
-    res.render('dashboard')
-})
+app.use('/user',require('./routes/user.js'))
 //login logout
-app.use('/users', require('./routes/routes.js'));
+app.use('/users', require('./routes/auth.js'));
 
 
 

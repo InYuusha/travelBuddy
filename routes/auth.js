@@ -5,6 +5,7 @@ const passport = require('passport')
 
 const {check , validationResult} = require('express-validator')
 
+
 var sanitise =[
     check('name').escape(),
     check('username').trim().escape(),
@@ -87,8 +88,9 @@ router.post('/register',sanitise,(req,res)=>{
    }
 })
 router.post('/login',sanitise,(req,res,next)=>{
+    let user = req.body.username
     passport.authenticate('local',{
-        successRedirect:'/dashboard',
+        successRedirect:`/user/${user}`,
         failureRedirect:'/users/login',
         failureFlash:true
     })
@@ -100,5 +102,7 @@ router.get('/logout',(req,res)=>{
     req.flash('success_msg','You are logged out')
     res.redirect('/users/login')
 })
+
+
 
 module.exports = router;
