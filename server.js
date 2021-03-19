@@ -1,5 +1,6 @@
 const express = require('express')
 const passport = require('passport')
+const path = require('path')
 const expressLayout = require('express-ejs-layouts')
 const mongoose = require('mongoose')
 const session = require('express-session')
@@ -19,6 +20,7 @@ mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology: true })
 
 //bodyParser
 app.use(express.urlencoded({extended:true}))
+app.use(express.static('public'))
 
 //express session
 app.use(session({
