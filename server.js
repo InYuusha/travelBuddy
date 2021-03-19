@@ -42,6 +42,11 @@ app.use((req,res,next)=>{
     next()
 })
 
+app.use((req,res,next)=>{
+    res.locals.isLoggedIn=req.isAuthenticated()
+    next()
+})
+
 //ejs
 app.set('view engine','ejs')
 app.use(expressLayout)
@@ -53,7 +58,7 @@ function isAuth(req,res,next){
 
     }
     else{
-        req.flash('error',"Dont try to be smart")
+        req.flash('error',"Login required")
         res.redirect('/users/login')
     }
 }
@@ -69,7 +74,7 @@ app.use('/users', require('./routes/routes.js'));
 
 
 
-const port = process.env.PORT||3000;
+const port = process.env.PORT||5000;
 
 app.listen(port,()=>{
     console.log(`Server is running on port ${port}`)
