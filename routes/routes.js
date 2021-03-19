@@ -3,6 +3,14 @@ const router = express.Router();
 const bcrypt = require('bcryptjs')
 const passport = require('passport')
 
+const {check , validationResult} = require('express-validator')
+
+var sanitise =[
+    check('name').escape(),
+    check('username').trim().escape(),
+    
+]
+
 //user model
 const User = require('../models/User.js')
 
@@ -12,15 +20,18 @@ router.get('/login',(req,res)=>{
 })
 
 
-router.get('/register',(req,res)=>{
+router.get('/register',[
+    
+],(req,res)=>{
     res.render('register')
 })
 
-router.post('/register',(req,res)=>{
-   const {name,email,password,password2}=req.body;
+router.post('/register',sanitise,(req,res)=>{
+   const {name,username,password,password2}=req.body;
    let errors=[];
+   
    //checking for required fileds
-   if(!name||!email||!password||!password2){
+   if(!name||!username||!password||!password2){
        errors.push({msg:'Please fill in all the fields'})
    }
    //check for password match
@@ -35,23 +46,23 @@ router.post('/register',(req,res)=>{
    res.render('register',{
        errors,
        name,
-       email
+       username
    })
    else{
-      User.findOne({email:email})
+      User.findOne({username:username})
       .then(user=>{
           if(user){
-              errors.push({msg:'Email already exists'});
+              errors.push({msg:'Username already exists'});
               res.render('register',{
                   errors,
                   name,
-                  email
+                  username
               })
           }
           else{
               const newUser = new User({
                   name:name,
-                  email:email,
+                  username:username,
                   password:password
               })
               //hashing password
@@ -75,7 +86,7 @@ router.post('/register',(req,res)=>{
 
    }
 })
-router.post('/login',(req,res,next)=>{
+router.post('/login',sanitise,(req,res,next)=>{
     passport.authenticate('local',{
         successRedirect:'/dashboard',
         failureRedirect:'/users/login',
