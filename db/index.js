@@ -27,10 +27,12 @@ exports.getOne = function(req,res){
     pool.getConnection((err,conn)=>{
         if(err) throw err;
         let username = req.params.uid;
-        let query = `SELECT * FROM userinfo WHERE user_username='${dashboard}'`
+        let query = `SELECT * FROM userinfo WHERE user_username='${username}'`
         conn.query(query,(err,result)=>{
-            if(err) return{success:false,msg:err}
-            res.send(result)
+            if(err){console.log(err);res.send({success:false,msg:err}) } 
+            else{
+                res.render('Home',{user:result[0]})
+            }
         })
     })
 

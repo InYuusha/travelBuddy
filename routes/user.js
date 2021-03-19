@@ -1,5 +1,6 @@
 const express  = require('express')
 const router = express.Router()
+const {getOne} = require('../db/index')
 
 //check if the user is authenticated
 function isAuth(req,res,next){
@@ -15,10 +16,7 @@ function isAuth(req,res,next){
 
 //routes
 //@ dashboard route
-router.get('/:uid',isAuth,(req,res)=>{
-   
-    res.render('Home',{user:req.params.uid})
-})
+router.get('/:uid',isAuth,getOne)
 
 
 //exports

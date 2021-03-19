@@ -1,13 +1,24 @@
 <nav class="navbar navbar-expand-lg  bg-light my-4">
     <div class="container-fluid justify-content-end">
+
         <ul class="navbar-nav d-flex align-items-center ">
+
             <a  href=""><li class="nav-item mx-4">Explore</li></a>
             <a href=""><li class="nav-item mx-4">Your Posts</li></a>
-           <a href=""><li class="nav-item mx-4 "><i class="fas fa-user-circle fa-2x"></i></li></a> 
-           
+
+            <div class="dropdown">
+          <a type="btn" class="nav-item mx-4 dropdown-toggle " role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user-circle fa-2x"></i></a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          
+            <li><a class="dropdown-item" href="/users/logout">Logout <i class="fas fa-sign-out-alt mx-2"></i></a></li>
+          </ul>
+
+            </div>           
+        
+        </ul>
            
             
-        </ul>
+        
 
     </div>
 
