@@ -8,20 +8,7 @@ const pool = mysql.createPool({
 
 })
 
-exports.getAll = function(req,res){
-    
-    pool.getConnection((err,conn)=>{
-        if(err) throw err;
-        let query = `SELECT * FROM userinfo`
 
-        conn.query(query,(err,result)=>{
-            if(err) return {success:false,msg:err}
-            res.send(result)
-          
-        })
-    })
-    
-}
 
 exports.getOne = function(req,res){
     if(!req.user){
@@ -51,18 +38,21 @@ exports.getOne = function(req,res){
 }
 
 exports.postOne=function(req,res){
-   
-    pool.getConnection((err,conn)=>{
-        if(err) throw err;
-        
-        
-
-        let query = `INSERT INTO userinfo(user_name,user_age,user_bio,user_location) VALUES (${req.body.name},${req.body.age},${req.body.bio},${req.body.location})`
-        conn.query(query,(err,result)=>{
-            if(err) res.send({success:false,msg:err})
-            res.send(result)
+    if(req.body){
+        pool.getConnection((err,conn)=>{
+            if(err) throw err;
+            
+            let query = `INSERT INTO userinfo(user_name,user_username,user_age,user_bio,user_location) VALUES ("${req.body.name}","${req.user.username}","${req.body.age}","${req.body.bio}","${req.body.location}")`
+            conn.query(query,(err,result)=>{
+                if(err) res.send({success:false,msg:err})
+                else{
+                    res.redirect(`/user/${req.user.username}`)
+                }
+            })
         })
-    })
+    }
+   
+   
 }
 
 exports.removeOne = function(req,res){
@@ -89,4 +79,18 @@ exports.updateOne=function(req,res){
             res.json(result)
         })
     })
+}
+exports.getAll = function(req,res){
+    
+    pool.getConnection((err,conn)=>{
+        if(err) throw err;
+        let query = `SELECT * FROM userinfo`
+
+        conn.query(query,(err,result)=>{
+            if(err) return {success:false,msg:err}
+            res.send(result)
+          
+        })
+    })
+    
 }
