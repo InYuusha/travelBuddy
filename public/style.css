@@ -5,6 +5,22 @@ a,a:hover{
 }
 /* ---------- */
 
+/*   Login    */
+#login-card span{
+ width:60%;
+ margin-left:20%;
+ 
+}
+
+/* ----------- */
+
+
+/* Register  */
+#register-card span{
+    width:60%;
+    margin-left:20%;
+}
+
 
 /*   Create User      */
 .create-user{

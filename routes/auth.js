@@ -16,7 +16,7 @@ function isAuth(req,res,next){
     if(req.user){
        let uid = req.user.username
         res.redirect(`/user/${uid}`)
-
+        
     }
     else{
         next()
@@ -49,6 +49,12 @@ router.post('/register',sanitise,(req,res)=>{
    //check for password match
    if(password!==password2){
        errors.push({msg:'Password do not match'})
+   }
+   if(username.length<3){
+       errors.push({msg:'Username too short!'})
+   }
+   if(name.length<4){
+       errors.push({msg:'Name too short! , try using your full name'})
    }
    // check for pass length
    if(password.length<6){

@@ -69,5 +69,8 @@ router.get('/:uid/profile',isAuth,(req,res)=>{
 
 
 
+
+
+
 //exports
 module.exports = router
