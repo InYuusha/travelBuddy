@@ -1,24 +1,34 @@
 <div class="create-user">
     <div class="card" id="create-user-card"  >
         <h3 class="card-title">Please Tell us About Yourself</h3>
-        <form action="" method="post" id="create-user-form">
+        <% if(typeof error!='undefined'){ %>
+            <span class="badge badge-primary"><%=error%></span>
+      
+
+       <% } %>
+        
+        <form action="/user/:uid" method="post" id="create-user-form">
 
            <div>
                <label class="form-label">Your Name</label>
-               <input  type="text" name="name" >
+               <input  type="text" name="name" class="form-control" >
             </div>
+            <div>
+                <label class="form-label">Your Age</label>
+                <input  type="number" name="age" class="form-control" >
+             </div>
 
             <div class="aboutYou">
                 <label class="form-label">About You</label>
-                <textarea type="text" name="name" > </textarea>
+                <textarea type="text" name="bio" class="form-control" > </textarea>
             </div>
 
             <div>
                 <label class="form-label">location</label>
-                <input type="text" name="name" >
+                <input type="text" name="location" class="form-control" >
             </div>
             <div>
-                <button class="btn btn-primary" type="input">Ok</button>
+                <button class="btn btn-primary" type="submit">Ok</button>
             </div>
 
 

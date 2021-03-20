@@ -22,11 +22,14 @@ a,a:hover{
 }
 #create-user-form input, #create-user-form textarea{
     width:80%;
-    margin:20px;
+   
 }
 #create-user-form .aboutYou{
     display:flex center ;
     
+}
+#create-user-form div{
+    margin:20px;
 }
 /*   -----------      */
 

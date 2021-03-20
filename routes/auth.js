@@ -5,7 +5,7 @@ const passport = require('passport')
 
 const {check , validationResult} = require('express-validator')
 
-
+// sanitise parameteres
 var sanitise =[
     check('name').escape(),
     check('username').trim().escape(),

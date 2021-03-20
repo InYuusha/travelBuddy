@@ -35,9 +35,11 @@ exports.getOne = function(req,res){
         conn.query(query,(err,result)=>{
             if(err){console.log(err);res.send({success:false,msg:err}) } 
             else{
+                //if userinfo doesnt exist ask user for basic info
                 if(!result[0]){
-                    res.render('createUser')
+                    res.render('createUser',{error:req.query.err})
                 }
+                //if userinfo exist show user home page
                 else{
                     res.render('Home',{user:result[0]})
                 }
@@ -53,10 +55,9 @@ exports.postOne=function(req,res){
     pool.getConnection((err,conn)=>{
         if(err) throw err;
         
-        let task = req.body.task;
-        let tag = req.body.tag;
+        
 
-        let query = `INSERT INTO mytask(task , tag) VALUES (N'${task}','${tag}')`
+        let query = `INSERT INTO userinfo(user_name,user_age,user_bio,user_location) VALUES (${req.body.name},${req.body.age},${req.body.bio},${req.body.location})`
         conn.query(query,(err,result)=>{
             if(err) res.send({success:false,msg:err})
             res.send(result)
