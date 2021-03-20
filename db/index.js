@@ -24,6 +24,10 @@ exports.getAll = function(req,res){
 }
 
 exports.getOne = function(req,res){
+    if(!req.user){
+        res.redirect('/users/login')
+    }
+    else{
     pool.getConnection((err,conn)=>{
         if(err) throw err;
         let username = req.params.uid;
@@ -40,6 +44,7 @@ exports.getOne = function(req,res){
             }
         })
     })
+}
 
 }
 

@@ -18,9 +18,17 @@ mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology: true })
 .then(()=>console.log(`Server connected to the database`))
 .catch(err=>console.log(err))
 
+/* ------------- Some Middlewares -----------*/
+
 //bodyParser
 app.use(express.urlencoded({extended:true}))
 app.use(express.static('public'))
+
+//disable caching
+app.use((req,res,next)=>{
+    res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+    next()
+})
 
 //express session
 app.use(session({

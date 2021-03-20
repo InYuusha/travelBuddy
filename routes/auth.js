@@ -11,11 +11,22 @@ var sanitise =[
     check('username').trim().escape(),
     
 ]
+//check if the user is authenticated
+function isAuth(req,res,next){
+    if(req.user){
+       let uid = req.user.username
+        res.redirect(`/user/${uid}`)
+
+    }
+    else{
+        next()
+    }
+}
 
 //user model
 const User = require('../models/User.js')
 
-router.get('/login',(req,res)=>{
+router.get('/login',isAuth,(req,res)=>{
     res.render('login')
 
 })
@@ -23,7 +34,7 @@ router.get('/login',(req,res)=>{
 
 router.get('/register',[
     
-],(req,res)=>{
+],isAuth,(req,res)=>{
     res.render('register')
 })
 

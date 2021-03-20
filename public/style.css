@@ -6,3 +6,27 @@ a,a:hover{
 /* ---------- */
 
 
+/*   Create User      */
+.create-user{
+    position:relative;
+    margin-top:10%;
+
+}
+#create-user-card{
+    padding:5%;
+    width:70%;
+}
+#create-user-form{
+    display:d-flex row;
+     
+}
+#create-user-form input, #create-user-form textarea{
+    width:80%;
+    margin:20px;
+}
+#create-user-form .aboutYou{
+    display:flex center ;
+    
+}
+/*   -----------      */
+

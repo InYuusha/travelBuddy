@@ -15,8 +15,11 @@ function isAuth(req,res,next){
 }
 
 //routes
-//@ dashboard route
+//@ home page route
 router.get('/:uid',isAuth,getOne)
+
+//create user route
+
 
 
 
