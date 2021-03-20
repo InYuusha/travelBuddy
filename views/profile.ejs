@@ -1,7 +1,17 @@
 <div class="profile">
-<div class="row">
-    <div class="col">
-        <i class="fas fa-user-circle fa-5x"></i>
+    <%- include('partials/nav.ejs',{user:user}) %>
+    <div class="card">
+        
+        <div class="card-body">
+            <i class="fas fa-user-circle fa-5x"></i>
+            <h3 class="card-title my-4"><%=user.user_name %></h3>
+            <p class="card-text">@<%=user.user_username %></p>
+            <p class="card-text">Age <%=user.user_age %> Years</p>
+            <p class="card-text"><i class="fas fa-map-marker-alt mx-2"></i> <%=user.user_location %></p>
+            
+            <p class="card-text"><%=user.user_bio %></p>
+        </div>
+        
     </div>
-</div>
+
 </div>

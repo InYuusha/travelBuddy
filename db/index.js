@@ -1,3 +1,4 @@
+const { Promise } = require('mongoose')
 const mysql = require('mysql')
 
 const pool = mysql.createPool({
@@ -9,7 +10,7 @@ const pool = mysql.createPool({
 })
 
 
-
+//if user info exist for current user-->home else-->createuser
 exports.getOne = function(req,res){
     if(!req.user){
         res.redirect('/users/login')
@@ -36,7 +37,7 @@ exports.getOne = function(req,res){
 }
 
 }
-
+// post the userinfo for current user throught create user
 exports.postOne=function(req,res){
     if(req.body){
         pool.getConnection((err,conn)=>{
@@ -53,6 +54,28 @@ exports.postOne=function(req,res){
     }
    
    
+}
+exports.getOneProfile=function(req,res){
+    if(!req.user){
+        res.redirect('/users/login')
+    }
+    else{
+    pool.getConnection((err,conn)=>{
+        if(err) throw err;
+        let username = req.params.uid;
+        let query = `SELECT * FROM userinfo WHERE user_username='${username}'`
+        return new Promise((resolve,reject)=>{
+            conn.query(query,(err,result)=>{
+                if(err){}
+
+                else{res.render('profile',{user:result[0]})}
+                
+            })
+        })
+    
+    })
+}
+
 }
 
 exports.removeOne = function(req,res){

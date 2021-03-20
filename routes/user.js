@@ -1,6 +1,6 @@
 const express  = require('express')
 const router = express.Router()
-const {getOne,postOne} = require('../db/index')
+const {getOne,postOne,getOneProfile} = require('../db/index')
 const {check, validationResult} = require('express-validator')
 
 //sanitise parameteres
@@ -63,12 +63,7 @@ router.get('/:uid',isAuth,getOne)
 router.post('/:uid',isAuth,sanitise,validate,postOne)
 
 //user profile route
-router.get('/:uid/profile',isAuth,(req,res)=>{
-    res.render('profile')
-})
-
-
-
+router.get('/:uid/profile',isAuth,getOneProfile)
 
 
 
