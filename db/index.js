@@ -31,7 +31,12 @@ exports.getOne = function(req,res){
         conn.query(query,(err,result)=>{
             if(err){console.log(err);res.send({success:false,msg:err}) } 
             else{
-                res.render('Home',{user:result[0]})
+                if(!result[0]){
+                    res.render('createUser')
+                }
+                else{
+                    res.render('Home',{user:result[0]})
+                }
             }
         })
     })

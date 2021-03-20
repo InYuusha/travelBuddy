@@ -19,5 +19,6 @@ function isAuth(req,res,next){
 router.get('/:uid',isAuth,getOne)
 
 
+
 //exports
 module.exports = router
