@@ -1,3 +1,11 @@
+/* Home */
+.home-page{
+    margin-left:20%;
+    margin-top:10px;
+}
+
+/* ----------- */
+
 /* Nav bar */
 a,a:hover{
     text-decoration:none;
@@ -60,4 +68,16 @@ a,a:hover{
 }
 
 /*   ------------   */
+
+
+/*  Post */
+.no-post{
+    margin-top:10%;
+    width:60%;
+    margin-left:20%;
+}
+
+/*   ------------   */
+
+
 

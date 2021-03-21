@@ -2,8 +2,11 @@
 
 <% if(isLoggedIn){ %>
     <%- include('partials/nav.ejs',{user:user}) %>
-    <h1>Hello <%=user.user_name %></h1>
-    <h3>This is home page </h3>
+    <div class="home-page">
+        <h1>Hello <%=user.user_name %></h1>
+        <h3>This is home page </h3>
+
+    </div>
 
 
 <% }else { %>

@@ -1,0 +1,25 @@
+
+ <%- include('partials/nav.ejs',{user:user}) %>
+
+<% if(typeof posts!='undefined' && posts.length>0){ %>
+    <% post.forEach((post)=>{ %>
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title"><%=post.title%></h3>
+                <p class="text-muted">post.date</p>
+                <p class="card-text">post.desc</p>
+            </div>
+        </div>
+
+    <% }) %>
+
+<% } else{ %>
+    <div class="card no-post">
+        
+        <div class="card-body">
+            <i class="fas fa-cat fa-5x my-4" ></i>
+            <h2 class="card-title">No post Yet !</h2>
+            <p class="card-text">Your posts will appear here</p>
+        </div>
+    </div>
+  <%} %>

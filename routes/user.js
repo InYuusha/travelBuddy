@@ -45,6 +45,7 @@ function validate(req,res,next){
 //check if the user is authenticated
 router.use(function isAuth(req,res,next){
     if(req.user){
+       
         next()
 
     }
@@ -67,6 +68,11 @@ router.get('/:uid/profile',getOneProfile)
 
 //delete user account
 router.get('/:uid/profile/delete',removeUserInfo,removeUserCred)
+
+//get user posts
+router.get('/:uid/posts',(req,res)=>{
+    res.render('post',{user:req.user})
+})
 
 
 

@@ -1,10 +1,13 @@
 <nav class="navbar navbar-expand-lg  bg-light my-4">
     <div class="container-fluid justify-content-end">
 
-        <ul class="navbar-nav d-flex align-items-center ">
+        <ul class="d-flex flex-row justify-content-between navbar-nav d-flex align-items-center">
+         <li><a href="<%=`/user/${user.user_username}/`%>" class="nav-item">Home</a></li> 
 
+         <li>
+          <div>
             <a  href=""><li class="nav-item mx-4">Explore</li></a>
-            <a href=""><li class="nav-item mx-4">Your Posts</li></a>
+            <a href="<%=`/user/${user.user_username}/posts`%>"><li class="nav-item mx-4">Your Posts</li></a>
 
             <div class="dropdown">
           <a type="btn" class="nav-item mx-4 dropdown-toggle " role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user-circle fa-2x"></i></a>
@@ -15,6 +18,11 @@
           </ul>
 
             </div>           
+          </div>
+         </li>
+    
+
+           
         
         </ul>
            

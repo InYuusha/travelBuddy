@@ -16,6 +16,7 @@ exports.getOne = function(req,res){
         res.redirect('/users/login')
     }
     else{
+       
     pool.getConnection((err,conn)=>{
         if(err) throw err;
         let username = req.params.uid;
@@ -40,6 +41,7 @@ exports.getOne = function(req,res){
 // post the userinfo for current user throught create user
 exports.postOne=function(req,res){
     if(req.body){
+        
         pool.getConnection((err,conn)=>{
             if(err) throw err;
             
@@ -61,6 +63,7 @@ exports.getOneProfile=function(req,res){
         res.redirect('/users/login')
     }
     else{
+        console.log(req.path)
     pool.getConnection((err,conn)=>{
         if(err) throw err;
         let username = req.params.uid;
