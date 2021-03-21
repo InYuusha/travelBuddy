@@ -66,7 +66,7 @@ exports.getOneProfile=function(req,res,next){
         
     pool.getConnection((err,conn)=>{
         if(err) throw err;
-        let username = req.params.uid;
+        let username = (req.params.uid?req.params.uid:req.user.username);
         let query = `SELECT * FROM userinfo WHERE user_username='${username}'`
         
             conn.query(query,(err,result)=>{
@@ -101,7 +101,9 @@ exports.removeUserInfo = function(req,res,next){
     })
 }
 
+//add one post
 exports.addOne = function(req,res,next){
+    
 
     pool.getConnection((err,conn)=>{
         if(err) throw err;

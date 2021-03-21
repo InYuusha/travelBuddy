@@ -5,12 +5,13 @@
  </div>
 
 <% if(typeof posts!='undefined' && posts.length>0){ %>
-    <% post.forEach((post)=>{ %>
-        <div class="card">
+    <% posts.forEach((post)=>{ %>
+        <div class="card post-card my-5">
             <div class="card-body">
-                <h3 class="card-title"><%=post.title%></h3>
-                <p class="text-muted">post.date</p>
-                <p class="card-text">post.desc</p>
+                <h3 class="card-title"><%=post.post_title%></h3>
+                
+                <p class="card-text"><%=post.post_place%></p>
+                <p class="card-text"><%=post.post_desc%></p>
             </div>
         </div>
 
