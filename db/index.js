@@ -101,6 +101,41 @@ exports.removeUserInfo = function(req,res,next){
     })
 }
 
+exports.addOne = function(req,res,next){
+
+    pool.getConnection((err,conn)=>{
+        if(err) throw err;
+        
+      else{
+          let {title,desc,place }=req.body
+        let query = `INSERT INTO posts(user_id,post_title,post_desc,post_place) VALUES(${req.userinfo.user_id},"${title}","${desc}","${place}")`
+        conn.query(query,(err,result)=>{
+            if(err) throw err;
+            else{
+                next()
+            }
+        })
+      }
+
+    })
+
+}
+exports.getAllPosts =function(req,res,next){
+    pool.getConnection((err,conn)=>{
+        if(err) throw err;
+        let query = `SELECT * FROM posts WHERE user_id=${req.userinfo.user_id}`
+
+        conn.query(query,(err,result)=>{
+            if(err) throw err;
+            else{
+                req.posts = result;
+                next()
+            }
+          
+        })
+    })
+}
+
 exports.updateOne=function(req,res){
     pool.getConnection((err,conn)=>{
         if(err) throw err;

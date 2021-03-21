@@ -1,6 +1,6 @@
 const express  = require('express')
 const router = express.Router()
-const {getOne,postOne,getOneProfile,removeUserInfo} = require('../db/index')
+const {getOne,postOne,getOneProfile,removeUserInfo, getAllPosts} = require('../db/index')
 const {removeUserCred} = require('../controllers/UserOp')
 const {check, validationResult} = require('express-validator')
 
@@ -66,6 +66,7 @@ router.post('/:uid',sanitise,validate,postOne)
 
 //user profile route
 router.get('/:uid/profile',getOneProfile,(req,res)=>{
+   
     res.render('profile',{user:req.userinfo})
 })
 
@@ -73,11 +74,13 @@ router.get('/:uid/profile',getOneProfile,(req,res)=>{
 router.get('/:uid/profile/delete',removeUserInfo,removeUserCred)
 
 //get user posts
-router.get('/:uid/posts',getOneProfile,(req,res)=>{
+router.get('/:uid/posts',getOneProfile,getAllPosts,(req,res)=>{
     
-    res.render('post',{user:req.userinfo})
+    
+    res.render('post',{user:req.userinfo,posts:req.posts})
 })
 
+//routes for handling user posts
 router.use('/:uid/posts',require('./posts'))
 
 //exports
