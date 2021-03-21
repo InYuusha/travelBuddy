@@ -116,7 +116,7 @@ router.post('/login',sanitise,(req,res,next)=>{
 
 router.get('/logout',(req,res)=>{
     req.logout();
-    req.flash('success_msg','You are logged out')
+    req.flash('success_msg','You are logged out successfully')
     res.redirect('/users/login')
 })
 

@@ -1,5 +1,8 @@
 
  <%- include('partials/nav.ejs',{user:user}) %>
+ <div class="container-fluid d-flex justify-content-end">
+    <a href="<%=`/user/${user.user_username}/posts/addPost`%>" class="btn btn-primary mx-5">Post</a>
+ </div>
 
 <% if(typeof posts!='undefined' && posts.length>0){ %>
     <% post.forEach((post)=>{ %>
@@ -18,7 +21,7 @@
         
         <div class="card-body">
             <i class="fas fa-cat fa-5x my-4" ></i>
-            <h2 class="card-title">No post Yet !</h2>
+            <h2 class="card-title"><%=user.user_name%> You have no posts Yet !</h2>
             <p class="card-text">Your posts will appear here</p>
         </div>
     </div>

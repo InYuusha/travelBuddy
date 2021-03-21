@@ -43,9 +43,10 @@ function validate(req,res,next){
 }
 
 //check if the user is authenticated
-router.use(function isAuth(req,res,next){
+router.use((req,res,next)=>{
     if(req.user){
-       
+        res.locals.userCred = req.user;
+
         next()
 
     }
@@ -64,17 +65,20 @@ router.get('/:uid',getOne)
 router.post('/:uid',sanitise,validate,postOne)
 
 //user profile route
-router.get('/:uid/profile',getOneProfile)
+router.get('/:uid/profile',getOneProfile,(req,res)=>{
+    res.render('profile',{user:req.userinfo})
+})
 
 //delete user account
 router.get('/:uid/profile/delete',removeUserInfo,removeUserCred)
 
 //get user posts
-router.get('/:uid/posts',(req,res)=>{
-    res.render('post',{user:req.user})
+router.get('/:uid/posts',getOneProfile,(req,res)=>{
+    
+    res.render('post',{user:req.userinfo})
 })
 
-
+router.use('/:uid/posts',require('./posts'))
 
 //exports
 module.exports = router

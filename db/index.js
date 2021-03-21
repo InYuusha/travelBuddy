@@ -57,25 +57,29 @@ exports.postOne=function(req,res){
    
    
 }
-// get the userinfo 
-exports.getOneProfile=function(req,res){
+// get the userinfo for profile
+exports.getOneProfile=function(req,res,next){
     if(!req.user){
         res.redirect('/users/login')
     }
     else{
-        console.log(req.path)
+        
     pool.getConnection((err,conn)=>{
         if(err) throw err;
         let username = req.params.uid;
         let query = `SELECT * FROM userinfo WHERE user_username='${username}'`
-        return new Promise((resolve,reject)=>{
+        
             conn.query(query,(err,result)=>{
-                if(err){}
-
-                else{res.render('profile',{user:result[0]})}
+                if(err){throw err}
+            
+                //attach the user data in req and next middleware
+                else{
+                    req.userinfo = result[0];
+                    next()
+                }
                 
             })
-        })
+       
     
     })
 }
