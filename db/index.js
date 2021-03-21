@@ -55,6 +55,7 @@ exports.postOne=function(req,res){
    
    
 }
+// get the userinfo 
 exports.getOneProfile=function(req,res){
     if(!req.user){
         res.redirect('/users/login')
@@ -78,13 +79,16 @@ exports.getOneProfile=function(req,res){
 
 }
 
-exports.removeOne = function(req,res){
+exports.removeUserInfo = function(req,res,next){
     pool.getConnection((err,conn)=>{
         if(err) throw err;
-        let query = `DELETE FROM mytask WHERE tag='${req.params.tag}'`
+        let uid = req.user.username;
+        let query = `DELETE FROM userinfo WHERE user_username="${uid}"`
         conn.query(query,(err,result)=>{
-            if(err) res.send({success:false,msg:err})
-            res.json(result)
+            if(err) throw err;
+            else{
+                next()
+            }
         })
 
     })

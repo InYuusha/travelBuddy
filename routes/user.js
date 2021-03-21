@@ -1,6 +1,7 @@
 const express  = require('express')
 const router = express.Router()
-const {getOne,postOne,getOneProfile} = require('../db/index')
+const {getOne,postOne,getOneProfile,removeUserInfo} = require('../db/index')
+const {removeUserCred} = require('../controllers/UserOp')
 const {check, validationResult} = require('express-validator')
 
 //sanitise parameteres
@@ -36,15 +37,13 @@ function validate(req,res,next){
             res.redirect(`/user/${req.user.username}?err=${valErr.errors[0].msg}`)
         }
         else{
-            next()
-            
+            next() 
         }
-
     }
 }
 
 //check if the user is authenticated
-function isAuth(req,res,next){
+router.use(function isAuth(req,res,next){
     if(req.user){
         next()
 
@@ -52,18 +51,22 @@ function isAuth(req,res,next){
     else{
         req.flash('error',"Login required")
         res.redirect('/users/login')
+        
     }
-}
+})
 
 //routes
 //@ home page route
-router.get('/:uid',isAuth,getOne)
+router.get('/:uid',getOne)
 
 //create user route
-router.post('/:uid',isAuth,sanitise,validate,postOne)
+router.post('/:uid',sanitise,validate,postOne)
 
 //user profile route
-router.get('/:uid/profile',isAuth,getOneProfile)
+router.get('/:uid/profile',getOneProfile)
+
+//delete user account
+router.get('/:uid/profile/delete',removeUserInfo,removeUserCred)
 
 
 

@@ -1,6 +1,10 @@
 <div class="profile">
+
+    <!--Navbar -->
     <%- include('partials/nav.ejs',{user:user}) %>
-    <div class="card">
+
+    <!-- User info -->
+    <div class="card my-4">
         
         <div class="card-body">
             <i class="fas fa-user-circle fa-5x"></i>
@@ -8,10 +12,21 @@
             <p class="card-text">@<%=user.user_username %></p>
             <p class="card-text">Age <%=user.user_age %> Years</p>
             <p class="card-text"><i class="fas fa-map-marker-alt mx-2"></i> <%=user.user_location %></p>
-            
             <p class="card-text"><%=user.user_bio %></p>
         </div>
         
+    </div>
+     
+    <!--Account setting-->
+    <div class="card  my-4">
+        <div class="card-body">
+            <h4 class="card-title">Danger Zone</h4>
+            <div class="d-flex  justify-content-between ">
+                <p class="card-text">Delete Account</p>
+                <a href="<%=`/user/${user.user_username}/profile/delete`%>" class="btn btn-danger">Delete Account</a>
+            </div>
+            
+        </div>
     </div>
 
 </div>
