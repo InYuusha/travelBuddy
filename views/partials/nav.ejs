@@ -10,7 +10,7 @@
             <a href="<%=`/user/${user.user_username}/posts`%>"><li class="nav-item mx-4">Your Posts</li></a>
 
             <div class="dropdown">
-          <a type="btn" class="nav-item mx-4 dropdown-toggle " role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user-circle fa-2x"></i></a>
+          <a type="btn" class="nav-item mx-4 dropdown-toggle " role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user-circle fa-2x mx-1"></i><%=user.user_username%></a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <li><a class="dropdown-item" href="<%=`/user/${user.user_username}/profile`%>">Your profile</a></li>
             <li><a class="dropdown-item" href="/users/logout">Logout <i class="fas fa-sign-out-alt mx-2"></i></a></li>

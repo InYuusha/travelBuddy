@@ -1,5 +1,9 @@
 
- <%- include('partials/nav.ejs',{user:user}) %>
+          <!--Navbar-->
+<%- include('partials/nav.ejs',{user:user}) %>
+
+         <!--Add post button-->
+         
  <div class="container-fluid d-flex justify-content-end">
     <a href="<%=`/user/${user.user_username}/posts/addPost`%>" class="btn btn-primary mx-5">Post</a>
  </div>

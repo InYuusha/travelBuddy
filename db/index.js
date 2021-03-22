@@ -10,34 +10,7 @@ const pool = mysql.createPool({
 })
 
 
-//if user info exist for current user-->home else-->createuser
-exports.getOne = function(req,res){
-    if(!req.user){
-        res.redirect('/users/login')
-    }
-    else{
-       
-    pool.getConnection((err,conn)=>{
-        if(err) throw err;
-        let username = req.params.uid;
-        let query = `SELECT * FROM userinfo WHERE user_username='${username}'`
-        conn.query(query,(err,result)=>{
-            if(err){console.log(err);res.send({success:false,msg:err}) } 
-            else{
-                //if userinfo doesnt exist ask user for basic info
-                if(!result[0]){
-                    res.render('createUser',{error:req.query.err})
-                }
-                //if userinfo exist show user home page
-                else{
-                    res.render('Home',{user:result[0]})
-                }
-            }
-        })
-    })
-}
 
-}
 // post the userinfo for current user throught create user
 exports.postOne=function(req,res){
     if(req.body){
@@ -60,7 +33,7 @@ exports.postOne=function(req,res){
 // get the userinfo for profile
 exports.getOneProfile=function(req,res,next){
     if(!req.user){
-        res.redirect('/users/login')
+        res.redirect(`/users/login`)
     }
     else{
         
@@ -85,7 +58,7 @@ exports.getOneProfile=function(req,res,next){
 }
 
 }
-
+// remove user-in
 exports.removeUserInfo = function(req,res,next){
     pool.getConnection((err,conn)=>{
         if(err) throw err;
@@ -122,6 +95,7 @@ exports.addOne = function(req,res,next){
     })
 
 }
+//get All profile
 exports.getAllPosts =function(req,res,next){
     pool.getConnection((err,conn)=>{
         if(err) throw err;
@@ -135,6 +109,26 @@ exports.getAllPosts =function(req,res,next){
             }
           
         })
+    })
+}
+
+exports.getLimitedPosts =function(req,res,next){
+    pool.getConnection((err,conn)=>{
+        if(err) throw err;
+       
+        else{ let uid = req.userinfo.user_id
+            let query = `SELECT * FROM posts WHERE user_id!=${uid} LIMIT 20`
+
+            conn.query(query,(err,result)=>{
+                if(err) throw err;
+                else{
+                    req.posts = result;
+                    next()
+                }
+              
+            })
+        }
+ 
     })
 }
 

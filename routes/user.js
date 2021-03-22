@@ -1,6 +1,6 @@
 const express  = require('express')
 const router = express.Router()
-const {getOne,postOne,getOneProfile,removeUserInfo, getAllPosts} = require('../db/index')
+const {getOne,postOne,getOneProfile,removeUserInfo, getAllPosts, getLimitedPosts} = require('../db/index')
 const {removeUserCred} = require('../controllers/UserOp')
 const {check, validationResult} = require('express-validator')
 
@@ -56,32 +56,59 @@ router.use((req,res,next)=>{
         
     }
 })
+// has registred to userinfo 
+function hasUserInfo(req,res,next){
+    if(req.userinfo){
+        next()
+    }
+    else{
+        let uid = (req.user.username?req.user.username:req.params.uid)
+        res.redirect(`/user/${uid}/`)
+    }
+}
+//render create user if userinfo not found
+function createUser(req,res,next){
+
+         //if userinfo doesnt exist ask user for basic info
+         if(!req.userinfo){
+            res.render('createUser',{error:req.query.err})
+        }
+        //if userinfo exist show user home page
+        else{
+            next()
+        }
+
+}
 
 //routes
 //@ home page route
-router.get('/:uid',getOne)
+router.get('/:uid',getOneProfile,createUser,getLimitedPosts,(req,res)=>{
 
-//create user route
+    res.render('Home',{user:req.userinfo,posts:req.posts})
+ 
+})
+
+//create-user route
 router.post('/:uid',sanitise,validate,postOne)
 
-//user profile route
-router.get('/:uid/profile',getOneProfile,(req,res)=>{
+//user-profile route
+router.get('/:uid/profile',getOneProfile,hasUserInfo,(req,res)=>{
    
     res.render('profile',{user:req.userinfo})
 })
 
 //delete user account
-router.get('/:uid/profile/delete',removeUserInfo,removeUserCred)
+router.get('/:uid/profile/delete',getOneProfile,hasUserInfo,removeUserInfo,removeUserCred)
 
 //get user posts
-router.get('/:uid/posts',getOneProfile,getAllPosts,(req,res)=>{
+router.get('/:uid/posts',getOneProfile,hasUserInfo,getAllPosts,(req,res)=>{
     
     
     res.render('post',{user:req.userinfo,posts:req.posts})
 })
 
 //routes for handling user posts
-router.use('/:uid/posts',require('./posts'))
+router.use('/:uid/posts',getOneProfile,hasUserInfo,require('./posts'))
 
 //exports
 module.exports = router

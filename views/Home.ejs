@@ -1,15 +1,27 @@
 
+          <!--Navbar-->
+<%- include('partials/nav.ejs',{user:user}) %>
+<!--Front Page posts-->
+<% if(typeof posts!='undefined' && posts.length>0){ %>
+    <% posts.forEach((post)=>{ %>
+        <div class="card post-card my-5">
+            <div class="card-body">
+                <h3 class="card-title"><%=post.post_title%></h3>
+                
+                <p class="card-text"><%=post.post_place%></p>
+                <p class="card-text"><%=post.post_desc%></p>
+            </div>
+        </div>
 
-<% if(isLoggedIn){ %>
-    <%- include('partials/nav.ejs',{user:user}) %>
-    <div class="home-page">
-        <h1>Hello <%=user.user_name %></h1>
-        <h3>This is home page </h3>
+    <% }) %>
 
+<% } else{ %>
+    <div class="card no-post">
+        
+        <div class="card-body">
+            <i class="fas fa-cat fa-5x my-4" ></i>
+            <h2 class="card-title">You have seen every recent post !</h2>
+            <p class="card-text">Your posts will appear here</p>
+        </div>
     </div>
-
-
-<% }else { %>
-    <h1>Session timed out</h1>
-
-<% } %>
+  <%} %>

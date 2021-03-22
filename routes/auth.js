@@ -92,6 +92,7 @@ router.post('/register',sanitise,(req,res)=>{
                       //save new User
                       newUser.save()
                       .then(user=>{
+                          req.flash("success_msg","User Registered Successfully")
                           res.redirect('/users/login')
                       })
                       .catch(err=>console.log(err))
