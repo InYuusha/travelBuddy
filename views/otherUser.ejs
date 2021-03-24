@@ -1,0 +1,26 @@
+<!--Nav-->
+<%- include('partials/nav.ejs',{user:user}) %>
+
+<% if(typeof otherUser!='undefined'){ %>
+      <!-- User info -->
+  <div class="card my-4">
+        
+    <div class="card-body">
+        <i class="fas fa-user-circle fa-5x"></i>
+        <h3 class="card-title my-4"><%=otherUser.user_name %></h3>
+        <p class="card-text">@<%=otherUser.user_username %></p>
+        <p class="card-text">Age <%=otherUser.user_age %> Years</p>
+        <p class="card-text"><i class="fas fa-map-marker-alt mx-2"></i> <%=otherUser.user_location %></p>
+        <p class="card-text"><%=otherUser.user_bio %></p>
+    </div>
+    
+</div>
+<% } else{ %>
+    <div class="card other-user-err ">
+        <div class="card-body">
+            <i class="fas fa-dragon fa-5x my-2"></i>
+            <h3 class="card-title"> Something went Wrong :)</h3>
+            <p class="card-text">We couldn't Fetch the user</p>
+        </div>
+    </div>
+<% } %>

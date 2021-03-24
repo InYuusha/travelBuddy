@@ -43,7 +43,10 @@ function validate(req,res,next){
     }
 }
 
-//check if the user is authenticated
+/* User Route Gaurd
+@desc:if !auth --> login 
+@scope:User
+*/
 router.use((req,res,next)=>{
     if(req.user){
         res.locals.userCred = req.user;
@@ -57,6 +60,7 @@ router.use((req,res,next)=>{
         
     }
 })
+
 // has registred to userinfo 
 //@params req.userinfo
 //used after getting userfo
@@ -128,6 +132,11 @@ router.get('/:uid/posts',getOneProfile,hasUserInfo,getAllPosts,getTimeDiff,(req,
       CRUD user posts
  */
 router.use('/:uid/posts',getOneProfile,hasUserInfo,require('./posts'))
+
+
+/* get another User details
+@desc:*/
+router.use('/:uid/allusers',require('./otherUser'))
 
 //exports
 module.exports = router

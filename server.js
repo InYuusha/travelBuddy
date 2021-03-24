@@ -52,11 +52,7 @@ app.use((req,res,next)=>{
     next()
 })
 
-//isAuthenticated
-app.use((req,res,next)=>{
-    res.locals.isLoggedIn=req.isAuthenticated()
-    next()
-})
+
 
 //ejs
 app.set('view engine','ejs')
@@ -66,13 +62,18 @@ app.use(expressLayout)
 
 //@ Login Register routes
 //@desc : routes for handling login registeration
-
 app.use('/', require('./routes/home.js'))
 
 //protected route
 app.use('/user',require('./routes/user.js'))
-//login logout
+
+/*Auth routes
+@desc: user login
+       user logout
+ */
 app.use('/users', require('./routes/auth.js'));
+
+
 
 
 

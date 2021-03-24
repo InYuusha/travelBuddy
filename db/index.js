@@ -39,21 +39,42 @@ exports.getOneProfile=function(req,res,next){
     else{
         
     pool.getConnection((err,conn)=>{
+        let username;
         if(err) throw err;
-        let username = (req.params.uid?req.params.uid:req.user.username);
-        let query = `SELECT * FROM userinfo WHERE user_username='${username}'`
+
+        if(req.anotherUser){
+             username = req.params.auid;
+             let query = `SELECT * FROM userinfo WHERE user_username='${username}'`
         
-            conn.query(query,(err,result)=>{
-                conn.release();
-                if(err){throw err}
-            
-                //attach the user data in req and next middleware
-                else{
-                    req.userinfo = result[0];
-                    next()
-                }
-                
-            })
+             conn.query(query,(err,result)=>{
+                 conn.release();
+                 if(err){throw err}
+             
+                 //attach the user data in req and next middleware
+                 else{
+                     req.anotherUserInfo= result[0];
+                     next()
+                 }
+                 
+             })
+        }
+        else{
+             username = (req.params.uid?req.params.uid:req.user.username);
+             let query = `SELECT * FROM userinfo WHERE user_username='${username}'`
+        
+             conn.query(query,(err,result)=>{
+                 conn.release();
+                 if(err){throw err}
+             
+                 //attach the user data in req and next middleware
+                 else{
+                     req.userinfo = result[0];
+                     next()
+                 }
+                 
+             })
+        }
+      
     })
  }
 }
