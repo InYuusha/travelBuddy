@@ -11,7 +11,6 @@ const pool = mysql.createPool({
 })
 
 
-
 // post the userinfo for current user throught create user
 exports.postOne=function(req,res){
     if(req.body){
@@ -55,14 +54,12 @@ exports.getOneProfile=function(req,res,next){
                 }
                 
             })
-       
-    
     })
-}
-
+ }
 }
 // remove user-in
 exports.removeUserInfo = function(req,res,next){
+
     pool.getConnection((err,conn)=>{
         if(err) throw err;
         let uid = req.user.username;
@@ -81,7 +78,6 @@ exports.removeUserInfo = function(req,res,next){
 //add one post
 exports.addOne = function(req,res,next){
     
-
     pool.getConnection((err,conn)=>{
         if(err) throw err;
         
@@ -100,7 +96,6 @@ exports.addOne = function(req,res,next){
       }
 
     })
-
 }
 //get All posts for a specific user
 exports.getAllPosts =function(req,res,next){
@@ -145,7 +140,7 @@ exports.getLimitedPosts =function(req,res,next){
         if(err) throw err;
        
         else{ let uid = req.userinfo.user_id
-            let query = `SELECT * FROM posts WHERE user_id!=${uid} LIMIT 20`
+            let query = `SELECT * FROM posts WHERE user_id!=${uid} ORDER BY user_id DESC LIMIT 20`
 
             conn.query(query,(err,result)=>{
                 conn.release();

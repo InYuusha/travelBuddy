@@ -115,7 +115,7 @@ router.get('/:uid/profile/delete',getOneProfile,hasUserInfo,removeUserInfo,remov
       block if user-info not found
       get all post by  user_id
 */
-router.get('/:uid/posts',getOneProfile,hasUserInfo,getAllPosts,(req,res)=>{
+router.get('/:uid/posts',getOneProfile,hasUserInfo,getAllPosts,getTimeDiff,(req,res)=>{
     
     
     res.render('post',{user:req.userinfo,posts:req.posts})

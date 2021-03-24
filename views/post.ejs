@@ -12,11 +12,29 @@
     <% posts.forEach((post)=>{ %>
         <div class="card post-card my-5">
             <div class="card-body">
+
+                <!--Display post data-->
                 <h3 class="card-title"><%=post.post_title%></h3>
-                <p class="text-muted"><%=post.post_time.getHours()%></p>
-                
                 <p class="card-text"><%=post.post_place%></p>
                 <p class="card-text"><%=post.post_desc%></p>
+
+                <!--Display time diff -->
+                <% if(post.timeDiff.dd >= 1){ %>
+                    <p class="text-muted"><%=post.timeDiff.dd%> Days ago</p>
+                <% }  %>
+
+                <% if(post.timeDiff.hh < 24 && post.timeDiff.hh >= 1){ %>
+                    <p class="text-muted"><%=post.timeDiff.hh%> Hours ago</p>
+                <% }  %>
+
+                <% if(post.timeDiff.mm < 60 && post.timeDiff.mm >= 1){ %>
+                    <p class="text-muted"><%=post.timeDiff.mm%> Minutes Ago</p>
+                <% } %>
+
+                <% if(post.timeDiff.ss < 60 && post.timeDiff.ss >= 0){ %>
+                    <p class="text-muted"><%=post.timeDiff.ss%> Seconds Ago</p>
+                <% } %>
+
             </div>
         </div>
 

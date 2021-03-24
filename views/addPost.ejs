@@ -1,6 +1,6 @@
 <%- include('partials/nav.ejs',{user:user}) %>
-<div class="add-post">
-    <div class="card">
+
+    <div class="card add add-post">
         <div class="card-body">
             <h3>Hello <%=userCred.name%>, Tell us About Your travel</h3>
             <form id="add-post-form" action="<%=`/user/${userCred.username}/posts/addPost`%>" method="post" id="add-post-form">
@@ -31,4 +31,3 @@
 
     </div>
 
-</div>
