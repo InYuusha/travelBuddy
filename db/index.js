@@ -122,17 +122,33 @@ exports.addOne = function(req,res,next){
 exports.getAllPosts =function(req,res,next){
     pool.getConnection((err,conn)=>{
         if(err) throw err;
-        let query = `SELECT * FROM posts WHERE user_id=${req.userinfo.user_id}`
+        if(req.anotherUser){
+            let query = `SELECT * FROM posts WHERE user_id=${req.anotherUserInfo.user_id} ORDER BY post_id DESC`
 
-        conn.query(query,(err,result)=>{
-            conn.release();
-            if(err) throw err;
-            else{
-                req.posts = result;
-                next()
-            }
-          
-        })
+            conn.query(query,(err,result)=>{
+                conn.release();
+                if(err) throw err;
+                else{
+                    req.posts = result;
+                    next()
+                }
+              
+            })
+        }
+        else{
+            let query = `SELECT * FROM posts WHERE user_id=${req.userinfo.user_id} ORDER BY post_id DESC`
+
+            conn.query(query,(err,result)=>{
+                conn.release();
+                if(err) throw err;
+                else{
+                    req.posts = result;
+                    next()
+                }
+              
+            })
+        }
+     
     })
 }
 
@@ -161,7 +177,7 @@ exports.getLimitedPosts =function(req,res,next){
         if(err) throw err;
        
         else{ let uid = req.userinfo.user_id
-            let query = `SELECT * FROM posts WHERE user_id!=${uid} ORDER BY user_id DESC LIMIT 20`
+            let query = `SELECT * FROM posts WHERE user_id!=${uid} ORDER BY post_id DESC LIMIT 20`
 
             conn.query(query,(err,result)=>{
                 conn.release();

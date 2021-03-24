@@ -3,6 +3,7 @@
 <%- include('partials/nav.ejs',{user:user}) %>
 <!--Front Page posts-->
 <% if(typeof posts!='undefined' && posts.length>0){ %>
+    <h3 class="mx-5 mt-5">Read Other's Travel story</h3>
     <% posts.forEach((post)=>{ %>
         <div class="card post-card my-5">
             <div class="card post-user">
