@@ -69,6 +69,7 @@ router.post('/register',sanitise,(req,res)=>{
    else{
       User.findOne({username:username})
       .then(user=>{
+          //if username already exists
           if(user){
               errors.push({msg:'Username already exists'});
               res.render('register',{
@@ -83,7 +84,7 @@ router.post('/register',sanitise,(req,res)=>{
                   username:username,
                   password:password
               })
-              //hashing password
+              //hashing and salting pass
               bcrypt.genSalt(10,(err,salt)=>{
                   bcrypt.hash(newUser.password,salt,(err,hash)=>{
                       if(err) throw err;

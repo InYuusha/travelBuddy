@@ -1,5 +1,6 @@
-const { Promise } = require('mongoose')
+const { Promise, connection } = require('mongoose')
 const mysql = require('mysql')
+const moment = require('moment')
 
 const pool = mysql.createPool({
     host:"localhost",
@@ -20,6 +21,7 @@ exports.postOne=function(req,res){
             
             let query = `INSERT INTO userinfo(user_name,user_username,user_age,user_bio,user_location) VALUES ("${req.body.name}","${req.user.username}","${req.body.age}","${req.body.bio}","${req.body.location}")`
             conn.query(query,(err,result)=>{
+                conn.release();
                 if(err) res.send({success:false,msg:err})
                 else{
                     res.redirect(`/user/${req.user.username}`)
@@ -43,6 +45,7 @@ exports.getOneProfile=function(req,res,next){
         let query = `SELECT * FROM userinfo WHERE user_username='${username}'`
         
             conn.query(query,(err,result)=>{
+                conn.release();
                 if(err){throw err}
             
                 //attach the user data in req and next middleware
@@ -65,6 +68,7 @@ exports.removeUserInfo = function(req,res,next){
         let uid = req.user.username;
         let query = `DELETE FROM userinfo WHERE user_username="${uid}"`
         conn.query(query,(err,result)=>{
+            conn.release();
             if(err) throw err;
             else{
                 next()
@@ -83,8 +87,11 @@ exports.addOne = function(req,res,next){
         
       else{
           let {title,desc,place }=req.body
-        let query = `INSERT INTO posts(user_id,post_title,post_desc,post_place) VALUES(${req.userinfo.user_id},"${title}","${desc}","${place}")`
+          let post_time = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+          
+        let query = `INSERT INTO posts(user_id,user_username,post_title,post_desc,post_place,post_time) VALUES(${req.userinfo.user_id},"${req.userinfo.user_username}","${title}","${desc}","${place}",'${post_time}')`
         conn.query(query,(err,result)=>{
+            conn.release();
             if(err) throw err;
             else{
                 next()
@@ -95,13 +102,14 @@ exports.addOne = function(req,res,next){
     })
 
 }
-//get All profile
+//get All posts for a specific user
 exports.getAllPosts =function(req,res,next){
     pool.getConnection((err,conn)=>{
         if(err) throw err;
         let query = `SELECT * FROM posts WHERE user_id=${req.userinfo.user_id}`
 
         conn.query(query,(err,result)=>{
+            conn.release();
             if(err) throw err;
             else{
                 req.posts = result;
@@ -112,6 +120,26 @@ exports.getAllPosts =function(req,res,next){
     })
 }
 
+// remove all posts for a specific user 
+//used for deleteing user
+exports.removeAllPosts =function(req,res,next){
+    pool.getConnection((err,conn)=>{
+        if(err) throw err;
+        let query = `DELETE FROM posts WHERE user_id=${req.userinfo.user_id}`
+
+        conn.query(query,(err,result)=>{
+            conn.release();
+            if(err) throw err;
+            else{
+               
+                next()
+            }
+          
+        })
+    })
+}
+
+
 exports.getLimitedPosts =function(req,res,next){
     pool.getConnection((err,conn)=>{
         if(err) throw err;
@@ -120,6 +148,7 @@ exports.getLimitedPosts =function(req,res,next){
             let query = `SELECT * FROM posts WHERE user_id!=${uid} LIMIT 20`
 
             conn.query(query,(err,result)=>{
+                conn.release();
                 if(err) throw err;
                 else{
                     req.posts = result;
@@ -130,32 +159,4 @@ exports.getLimitedPosts =function(req,res,next){
         }
  
     })
-}
-
-exports.updateOne=function(req,res){
-    pool.getConnection((err,conn)=>{
-        if(err) throw err;
-        let oldTag = req.params.tag
-        let newTask = req.body.task;
-        let newTag = req.body.tag;
-        let query =`UPDATE mytask SET task='${newTask}',tag='${newTag}' WHERE tag='${oldTag}'`
-        conn.query(query,(err,result)=>{
-            if(err) res.send({success:false,msg:err})
-            res.json(result)
-        })
-    })
-}
-exports.getAll = function(req,res){
-    
-    pool.getConnection((err,conn)=>{
-        if(err) throw err;
-        let query = `SELECT * FROM userinfo`
-
-        conn.query(query,(err,result)=>{
-            if(err) return {success:false,msg:err}
-            res.send(result)
-          
-        })
-    })
-    
 }

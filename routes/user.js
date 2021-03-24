@@ -1,7 +1,8 @@
 const express  = require('express')
 const router = express.Router()
-const {getOne,postOne,getOneProfile,removeUserInfo, getAllPosts, getLimitedPosts} = require('../db/index')
+const {getOne,postOne,getOneProfile,removeUserInfo, getAllPosts, getLimitedPosts, removeAllPosts} = require('../db/index')
 const {removeUserCred} = require('../controllers/UserOp')
+const {getTimeDiff} = require('../controllers/postOp')
 const {check, validationResult} = require('express-validator')
 
 //sanitise parameteres
@@ -57,10 +58,13 @@ router.use((req,res,next)=>{
     }
 })
 // has registred to userinfo 
+//@params req.userinfo
+//used after getting userfo
 function hasUserInfo(req,res,next){
     if(req.userinfo){
         next()
     }
+    //if not given userinfo block
     else{
         let uid = (req.user.username?req.user.username:req.params.uid)
         res.redirect(`/user/${uid}/`)
@@ -82,32 +86,47 @@ function createUser(req,res,next){
 
 //routes
 //@ home page route
-router.get('/:uid',getOneProfile,createUser,getLimitedPosts,(req,res)=>{
+router.get('/:uid',getOneProfile,createUser,getLimitedPosts,getTimeDiff,(req,res)=>{
 
     res.render('Home',{user:req.userinfo,posts:req.posts})
  
 })
 
-//create-user route
+//@create-user route
 router.post('/:uid',sanitise,validate,postOne)
 
-//user-profile route
+//@user-profile route
 router.get('/:uid/profile',getOneProfile,hasUserInfo,(req,res)=>{
    
     res.render('profile',{user:req.userinfo})
 })
 
-//delete user account
-router.get('/:uid/profile/delete',getOneProfile,hasUserInfo,removeUserInfo,removeUserCred)
+/* Delete user account
+@desc:
+      delete user-info(sql)
+      delete user-posts(sql)
+      delete user-cred (mongo)
+ */
+router.get('/:uid/profile/delete',getOneProfile,hasUserInfo,removeUserInfo,removeAllPosts,removeUserCred)
 
-//get user posts
+/*get user posts
+@desc: 
+      get userinfo
+      block if user-info not found
+      get all post by  user_id
+*/
 router.get('/:uid/posts',getOneProfile,hasUserInfo,getAllPosts,(req,res)=>{
     
     
     res.render('post',{user:req.userinfo,posts:req.posts})
 })
 
-//routes for handling user posts
+/*routes for handling user posts
+@desc:
+      get user-info
+      block if user-info not found
+      CRUD user posts
+ */
 router.use('/:uid/posts',getOneProfile,hasUserInfo,require('./posts'))
 
 //exports

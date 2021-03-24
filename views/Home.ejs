@@ -5,11 +5,40 @@
 <% if(typeof posts!='undefined' && posts.length>0){ %>
     <% posts.forEach((post)=>{ %>
         <div class="card post-card my-5">
+            <div class="card post-user">
+                <div class="card-body d-flex flex-row ">
+                    <i  class="fas fa-user-circle  fa-2x mx-1"></i>
+                    <p class="text-light"><%=post.user_username%></p>
+                </div>
+            
+            </div>
             <div class="card-body">
+                
                 <h3 class="card-title"><%=post.post_title%></h3>
                 
                 <p class="card-text"><%=post.post_place%></p>
                 <p class="card-text"><%=post.post_desc%></p>
+
+                <% if(post.timeDiff.dd >= 1){ %>
+                    <p class="text-muted"><%=post.timeDiff.dd%> Days ago</p>
+                <% }  %>
+
+                <% if(post.timeDiff.hh < 24 && post.timeDiff.hh >= 1){ %>
+                    <p class="text-muted"><%=post.timeDiff.hh%> Hours ago</p>
+                <% }  %>
+
+                <% if(post.timeDiff.mm < 60 && post.timeDiff.mm >= 1){ %>
+                    <p class="text-muted"><%=post.timeDiff.mm%> Minutes Ago</p>
+                <% } %>
+
+                <% if(post.timeDiff.ss < 60 && post.timeDiff.ss > 0){ %>
+                    <p class="text-muted"><%=post.timeDiff.ss%> Seconds Ago</p>
+                <% } %>
+
+                
+                    
+
+                
             </div>
         </div>
 

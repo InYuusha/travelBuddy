@@ -3,6 +3,12 @@
     margin-left:20%;
     margin-top:10px;
 }
+.post-user{
+    background-color:rgb(84, 126, 218)
+}
+.post-user i{
+    color:rgb(235, 222, 222);
+}
 
 /* ----------- */
 
