@@ -1,5 +1,6 @@
 const express = require('express')
 const passport = require('passport')
+const path = require('path')
 const expressLayout = require('express-ejs-layouts')
 const mongoose = require('mongoose')
 const session = require('express-session')
@@ -17,8 +18,17 @@ mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology: true })
 .then(()=>console.log(`Server connected to the database`))
 .catch(err=>console.log(err))
 
+/* ------------- Some Middlewares -----------*/
+
 //bodyParser
 app.use(express.urlencoded({extended:true}))
+app.use(express.static('public'))
+
+//disable caching
+app.use((req,res,next)=>{
+    res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
+    next()
+})
 
 //express session
 app.use(session({
@@ -42,6 +52,7 @@ app.use((req,res,next)=>{
     next()
 })
 
+//isAuthenticated
 app.use((req,res,next)=>{
     res.locals.isLoggedIn=req.isAuthenticated()
     next()
@@ -51,26 +62,17 @@ app.use((req,res,next)=>{
 app.set('view engine','ejs')
 app.use(expressLayout)
 
-//check if the user is authenticated
-function isAuth(req,res,next){
-    if(req.user){
-        next()
 
-    }
-    else{
-        req.flash('error',"Login required")
-        res.redirect('/users/login')
-    }
-}
 
-//routes
+//@ Login Register routes
+//@desc : routes for handling login registeration
+
 app.use('/', require('./routes/home.js'))
+
 //protected route
-app.get('/dashboard',isAuth,(req,res)=>{
-    res.render('dashboard')
-})
+app.use('/user',require('./routes/user.js'))
 //login logout
-app.use('/users', require('./routes/routes.js'));
+app.use('/users', require('./routes/auth.js'));
 
 
 

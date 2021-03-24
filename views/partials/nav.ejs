@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg  bg-light my-4">
+    <div class="container-fluid justify-content-end">
+
+        <ul class="d-flex flex-row justify-content-between navbar-nav d-flex align-items-center">
+         <li><a href="<%=`/user/${user.user_username}/`%>" class="nav-item">Home</a></li> 
+
+         <li>
+          <div>
+            <a  href=""><li class="nav-item mx-4">Explore</li></a>
+            <a href="<%=`/user/${user.user_username}/posts`%>"><li class="nav-item mx-4">Your Posts</li></a>
+
+            <div class="dropdown">
+          <a type="btn" class="nav-item mx-4 dropdown-toggle " role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user-circle fa-2x mx-1"></i><%=user.user_username%></a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li><a class="dropdown-item" href="<%=`/user/${user.user_username}/profile`%>">Your profile</a></li>
+            <li><a class="dropdown-item" href="/users/logout">Logout <i class="fas fa-sign-out-alt mx-2"></i></a></li>
+            
+          </ul>
+
+            </div>           
+          </div>
+         </li>
+    
+
+           
+        
+        </ul>
+           
+            
+        
+
+    </div>
+
+</nav>
