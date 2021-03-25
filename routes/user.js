@@ -1,6 +1,6 @@
 const express  = require('express')
 const router = express.Router()
-const {getOne,postOne,getOneProfile,removeUserInfo, getAllPosts, getLimitedPosts, removeAllPosts} = require('../db/index')
+const {getOne,postOne,getOneProfile,removeUserInfo, getAllPosts, getLimitedPosts, removeAllPosts, getLimitedUsers} = require('../db/index')
 const {removeUserCred} = require('../controllers/UserOp')
 const {getTimeDiff} = require('../controllers/postOp')
 const {check, validationResult} = require('express-validator')
@@ -43,13 +43,14 @@ function validate(req,res,next){
     }
 }
 
-//check if the user is authenticated
+/* User Route Gaurd
+@desc:if !auth --> login 
+@scope:User
+*/
 router.use((req,res,next)=>{
     if(req.user){
-        res.locals.userCred = req.user;
-
+       
         next()
-
     }
     else{
         req.flash('error',"Login required")
@@ -57,6 +58,7 @@ router.use((req,res,next)=>{
         
     }
 })
+
 // has registred to userinfo 
 //@params req.userinfo
 //used after getting userfo
@@ -128,6 +130,16 @@ router.get('/:uid/posts',getOneProfile,hasUserInfo,getAllPosts,getTimeDiff,(req,
       CRUD user posts
  */
 router.use('/:uid/posts',getOneProfile,hasUserInfo,require('./posts'))
+
+
+/* get another User details
+@desc:*/
+router.use('/:uid/allusers',require('./otherUser'))
+
+/* get explore */
+router.get('/:uid/explore',getOneProfile,getLimitedUsers,(req,res)=>{
+    res.render('explore',{anotherUsers:req.users,user:req.userinfo})
+})
 
 //exports
 module.exports = router

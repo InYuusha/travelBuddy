@@ -1,14 +1,38 @@
-
-          <!--Navbar-->
+<!--Nav-->
 <%- include('partials/nav.ejs',{user:user}) %>
-<!--Front Page posts-->
+
+<% if(typeof otherUser!='undefined'){ %>
+      <!-- User info -->
+     
+  <div class="card other-user my-4">
+        
+    <div class="card-body">
+        <i class="fas fa-user-circle fa-5x"></i>
+        <h3 class="card-title my-4"><%=otherUser.user_name %></h3>
+        <p class="card-text">@<%=otherUser.user_username %></p>
+        <p class="card-text">Age <%=otherUser.user_age %> Years</p>
+        <p class="card-text"><i class="fas fa-map-marker-alt mx-2"></i> <%=otherUser.user_location %></p>
+        <p class="card-text"><%=otherUser.user_bio %></p>
+    </div>
+    
+</div>
+<% } else{ %>
+    <div class="card other-user-err ">
+        <div class="card-body">
+            <i class="fas fa-dragon fa-5x my-2"></i>
+            <h3 class="card-title"> Something went Wrong :)</h3>
+            <p class="card-text">We couldn't Fetch the user</p>
+        </div>
+    </div>
+<% } %>
+
 <% if(typeof posts!='undefined' && posts.length>0){ %>
-    <h3 class="mx-5 mt-5">Read Other's Travel story</h3>
+    <h3 class="mx-5 mt-5"> Travel Stories</h3>
     <% posts.forEach((post)=>{ %>
         <div class="card post-card my-5">
             <div class="card post-user">
                 <div class="card-body d-flex flex-row ">
-                    <a href="<%=`/user/${user.user_username}/allusers/${post.user_username}`%>"><i class="fas fa-user-circle  fa-2x mx-1"></i></a>
+                    <i class="fas fa-user-circle  fa-2x mx-1"></i>
                     <p class="text-light"><%=post.user_username%></p>
                 </div>
             
@@ -17,12 +41,10 @@
 
                 <!--Display post data-->
                 <h3 class="card-title"><%=post.post_title%></h3>
-                
                 <p class="card-text"><%=post.post_place%></p>
                 <p class="card-text"><%=post.post_desc%></p>
 
-                <!--Display time diff-->
-
+                <!--Display time diff -->
                 <% if(post.timeDiff.dd >= 1){ %>
                     <p class="text-muted"><%=post.timeDiff.dd%> Days ago</p>
                 <% }  %>
@@ -39,10 +61,6 @@
                     <p class="text-muted"><%=post.timeDiff.ss%> Seconds Ago</p>
                 <% } %>
 
-                
-                    
-
-                
             </div>
         </div>
 
@@ -53,7 +71,7 @@
         
         <div class="card-body">
             <i class="fas fa-cat fa-5x my-4" ></i>
-            <h2 class="card-title">You have seen every recent post !</h2>
+            <h2 class="card-title"><%=user.user_name%> You have no posts Yet !</h2>
             <p class="card-text">Your posts will appear here</p>
         </div>
     </div>

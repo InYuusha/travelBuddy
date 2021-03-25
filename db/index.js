@@ -39,21 +39,42 @@ exports.getOneProfile=function(req,res,next){
     else{
         
     pool.getConnection((err,conn)=>{
+        let username;
         if(err) throw err;
-        let username = (req.params.uid?req.params.uid:req.user.username);
-        let query = `SELECT * FROM userinfo WHERE user_username='${username}'`
+
+        if(req.anotherUser){
+             username = req.params.auid;
+             let query = `SELECT * FROM userinfo WHERE user_username='${username}'`
         
-            conn.query(query,(err,result)=>{
-                conn.release();
-                if(err){throw err}
-            
-                //attach the user data in req and next middleware
-                else{
-                    req.userinfo = result[0];
-                    next()
-                }
-                
-            })
+             conn.query(query,(err,result)=>{
+                 conn.release();
+                 if(err){throw err}
+             
+                 //attach the user data in req and next middleware
+                 else{
+                     req.anotherUserInfo= result[0];
+                     next()
+                 }
+                 
+             })
+        }
+        else{
+             username = (req.params.uid?req.params.uid:req.user.username);
+             let query = `SELECT * FROM userinfo WHERE user_username='${username}'`
+        
+             conn.query(query,(err,result)=>{
+                 conn.release();
+                 if(err){throw err}
+             
+                 //attach the user data in req and next middleware
+                 else{
+                     req.userinfo = result[0];
+                     next()
+                 }
+                 
+             })
+        }
+      
     })
  }
 }
@@ -101,17 +122,33 @@ exports.addOne = function(req,res,next){
 exports.getAllPosts =function(req,res,next){
     pool.getConnection((err,conn)=>{
         if(err) throw err;
-        let query = `SELECT * FROM posts WHERE user_id=${req.userinfo.user_id}`
+        if(req.anotherUser){
+            let query = `SELECT * FROM posts WHERE user_id=${req.anotherUserInfo.user_id} ORDER BY post_id DESC`
 
-        conn.query(query,(err,result)=>{
-            conn.release();
-            if(err) throw err;
-            else{
-                req.posts = result;
-                next()
-            }
-          
-        })
+            conn.query(query,(err,result)=>{
+                conn.release();
+                if(err) throw err;
+                else{
+                    req.posts = result;
+                    next()
+                }
+              
+            })
+        }
+        else{
+            let query = `SELECT * FROM posts WHERE user_id=${req.userinfo.user_id} ORDER BY post_id DESC`
+
+            conn.query(query,(err,result)=>{
+                conn.release();
+                if(err) throw err;
+                else{
+                    req.posts = result;
+                    next()
+                }
+              
+            })
+        }
+     
     })
 }
 
@@ -140,7 +177,7 @@ exports.getLimitedPosts =function(req,res,next){
         if(err) throw err;
        
         else{ let uid = req.userinfo.user_id
-            let query = `SELECT * FROM posts WHERE user_id!=${uid} ORDER BY user_id DESC LIMIT 20`
+            let query = `SELECT * FROM posts WHERE user_id!=${uid} ORDER BY post_id DESC LIMIT 20`
 
             conn.query(query,(err,result)=>{
                 conn.release();
@@ -154,4 +191,27 @@ exports.getLimitedPosts =function(req,res,next){
         }
  
     })
+}
+exports.getLimitedUsers =  function(req,res,next){
+
+    pool.getConnection((err,conn)=>{
+        if(err) throw err;
+        
+      else{
+          
+          
+        username = (req.params.uid?req.params.uid:req.user.username);
+        let query = `SELECT * FROM userinfo WHERE user_username!='${username}' ORDER BY user_id DESC LIMIT 5`
+        conn.query(query,(err,result)=>{
+            conn.release();
+            if(err) throw err;
+            else{
+                req.users = result
+                next()
+            }
+        })
+      }
+
+    })
+
 }
