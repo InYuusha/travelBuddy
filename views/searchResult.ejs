@@ -1,0 +1,23 @@
+
+         <!--Navbar-->
+    <%- include('partials/nav.ejs',{user:user}) %>
+
+<h3 class="mx-5">Search results for the user with the username "<%=searchedUser%>"</h3>
+<% if(typeof anotherUser!='undefined'){ %>
+    
+
+    <div  class="card explore-user-card card-bod d-flex  align-items-center p-2 mx-5 mt-5">
+        <a href="<%=`/user/${user.user_username}/allusers/${anotherUser.user_username}`%>"><i class="fas fa-user-circle  fa-5x mx-1"></i></a> 
+         <p class="card-text"><%= anotherUser.user_username %></p>
+         <p class="text-muted"><%= anotherUser.user_username %></p>
+     </div>
+    
+
+<% } else {%>
+
+    <div class="card explore-err card-body my-5">
+        <h3 class="card-title">No User found !</h3>
+        <p class="card-text">We couldnt find the user !</p>
+    </div>
+
+    <%}%>

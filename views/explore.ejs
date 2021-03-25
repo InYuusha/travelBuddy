@@ -1,5 +1,17 @@
           <!--Navbar-->
           <%- include('partials/nav.ejs',{user:user}) %>
+  <div class="explore-search-user">
+    <form action="" method="post">
+
+        <div class="input-group search-user d-flex align-items-center">
+            <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+            <input type="text" name="searchedUser" placeholder="Search user" class="form-control" >
+            
+        </div>
+             
+
+  </form>
+  </div>
 
 <% if(typeof anotherUsers!='undefined'){ %>
     <h3 class="mx-5 mt-5">New Users</h3>

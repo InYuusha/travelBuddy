@@ -1,6 +1,6 @@
 const express  = require('express')
 const router = express.Router()
-const {getOne,postOne,getOneProfile,removeUserInfo, getAllPosts, getLimitedPosts, removeAllPosts, getLimitedUsers} = require('../db/index')
+const {getOne,postOne,getOneProfile,removeUserInfo, getAllPosts, getLimitedPosts, removeAllPosts, getLimitedUsers, searchUser} = require('../db/index')
 const {removeUserCred} = require('../controllers/UserOp')
 const {getTimeDiff} = require('../controllers/postOp')
 const {check, validationResult} = require('express-validator')
@@ -139,6 +139,12 @@ router.use('/:uid/allusers',require('./otherUser'))
 /* get explore */
 router.get('/:uid/explore',getOneProfile,getLimitedUsers,(req,res)=>{
     res.render('explore',{anotherUsers:req.users,user:req.userinfo})
+})
+/* search user */
+router.post('/:uid/explore',getOneProfile,searchUser,(req,res)=>{
+    res.locals.searchedUser = req.body.searchedUser;
+    res.render('searchResult',{user:req.userinfo,anotherUser:req.resultUser})
+
 })
 
 //exports

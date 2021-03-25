@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const {addOne, removeOnePosts} = require('../db/index')
 
+
+
 //routes 
 
 //get add-post route

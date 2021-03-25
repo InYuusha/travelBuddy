@@ -1,10 +1,8 @@
-/* Home */
-.lower-icons i{
-    margin-right:10%;
-    color:rgb(194, 187, 187);
-}
-.welcome i{
-    color:rgb(194, 187, 187);
+/* Welcome */
+.welcome-page{
+
+    background-size: cover;
+    background:url("http://gottakeepmovin.com/wp-content/uploads/2015/04/2015-04-28-09.03.59-3-1024x683.jpg")
 }
 
 /* ----------- */
@@ -129,6 +127,15 @@ a,a:hover{
 }
 .explore-user-card{
     width:20%
+}
+.explore-search-user{
+    width:20%;
+    float:right;
+    margin-right:5%;
+}
+.search-user input,.search-user input:focus{
+    border:none;
+    outline:none;
 }
 
 /*   ------------   */

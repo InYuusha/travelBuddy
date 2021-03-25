@@ -235,4 +235,26 @@ exports.removeOnePosts =function(req,res,next){
           
         })
     })
+
+
+}
+
+//search user
+exports.searchUser = function(req,res,next){
+    pool.getConnection((err,conn)=>{
+        if(err) throw err;
+        let uid = req.body.searchedUser
+        let query = `SELECT * FROM userinfo WHERE user_username="${uid}"`
+
+        conn.query(query,(err,result)=>{
+            conn.release();
+            if(err) throw err;
+            else{
+               req.resultUser = result[0]
+                next()
+            }
+          
+        })
+    })
+
 }
