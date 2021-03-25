@@ -5,6 +5,7 @@ const expressLayout = require('express-ejs-layouts')
 const mongoose = require('mongoose')
 const session = require('express-session')
 const flash = require('connect-flash')
+const { name } = require('ejs')
 
 const app = express();
 
@@ -17,6 +18,7 @@ const url = process.env.MONGO_URL
 mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology: true })
 .then(()=>console.log(`Server connected to the database`))
 .catch(err=>console.log(err))
+
 
 /* ------------- Some Middlewares -----------*/
 
@@ -53,7 +55,6 @@ app.use((req,res,next)=>{
 })
 
 
-
 //ejs
 app.set('view engine','ejs')
 app.use(expressLayout)
@@ -74,9 +75,7 @@ app.use('/user',require('./routes/user.js'))
 app.use('/users', require('./routes/auth.js'));
 
 
-
-
-
+// listening port
 const port = process.env.PORT||5000;
 
 app.listen(port,()=>{

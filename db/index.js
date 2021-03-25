@@ -215,3 +215,24 @@ exports.getLimitedUsers =  function(req,res,next){
     })
 
 }
+
+
+// remove a post for a specific user 
+
+exports.removeOnePosts =function(req,res,next){
+    pool.getConnection((err,conn)=>{
+        if(err) throw err;
+        let pid =req.params.pid
+        let query = `DELETE FROM posts WHERE user_id=${req.userinfo.user_id} && post_id=${pid}`
+
+        conn.query(query,(err,result)=>{
+            conn.release();
+            if(err) throw err;
+            else{
+               
+                next()
+            }
+          
+        })
+    })
+}

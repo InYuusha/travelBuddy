@@ -1,2 +1,2 @@
-# user_auth
-User Authentication system using node.js passport.js mongodb 
+# travel
+A travel app with auth and user creation/deletetion

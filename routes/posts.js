@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {addOne} = require('../db/index')
+const {addOne, removeOnePosts} = require('../db/index')
 
 //routes 
 
@@ -13,6 +13,11 @@ router.get('/addPost',(req,res)=>{
 router.post('/addPost',addOne,(req,res)=>{ 
     let uid = (req.userinfo.user_username?req.userinfo.user_username:req.user.username)
     res.redirect(`/user/${uid}/posts`)
+})
+
+/* Delete one posts*/
+router.get('/:pid/delete',removeOnePosts,(req,res)=>{
+    res.redirect(`/user/${req.user.username}/posts`)
 })
 
 
