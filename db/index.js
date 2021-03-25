@@ -192,3 +192,26 @@ exports.getLimitedPosts =function(req,res,next){
  
     })
 }
+exports.getLimitedUsers =  function(req,res,next){
+
+    pool.getConnection((err,conn)=>{
+        if(err) throw err;
+        
+      else{
+          
+          
+        username = (req.params.uid?req.params.uid:req.user.username);
+        let query = `SELECT * FROM userinfo WHERE user_username!='${username}' ORDER BY user_id DESC LIMIT 5`
+        conn.query(query,(err,result)=>{
+            conn.release();
+            if(err) throw err;
+            else{
+                req.users = result
+                next()
+            }
+        })
+      }
+
+    })
+
+}

@@ -1,4 +1,15 @@
 /* Home */
+.lower-icons i{
+    margin-right:10%;
+    color:rgb(194, 187, 187);
+}
+.welcome i{
+    color:rgb(194, 187, 187);
+}
+
+/* ----------- */
+
+/* Home */
 .home-page{
     margin-left:20%;
     margin-top:10px;
@@ -109,6 +120,17 @@ a,a:hover{
     width:60%;
     margin-left:5%;
 }
+/*   ------------   */
+
+/*  Explore */
+.explore-users{
+    width:95%;
+    margin-left:2%;
+}
+.explore-user-card{
+    width:20%
+}
+
 /*   ------------   */
 
 
