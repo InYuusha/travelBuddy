@@ -138,7 +138,7 @@ router.use('/:uid/allusers',require('./otherUser'))
 
 /* get explore */
 router.get('/:uid/explore',getOneProfile,getLimitedUsers,(req,res)=>{
-    res.render('explore',{users:req.users,user:req.userinfo})
+    res.render('explore',{anotherUsers:req.users,user:req.userinfo})
 })
 
 //exports
