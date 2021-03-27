@@ -49,6 +49,7 @@ function validate(req,res,next){
 */
 router.use((req,res,next)=>{
     if(req.user){
+        res.locals.userCred=req.user;
        
         next()
     }
