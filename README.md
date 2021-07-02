@@ -1,2 +1,2 @@
 # user_auth
-User Authentication system using node.js passport.js mongodb 
+Travel Blog App with express mongodb mysqsl
