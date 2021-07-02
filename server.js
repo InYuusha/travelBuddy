@@ -29,7 +29,6 @@ app.use((req,res,next)=>{
     res.set('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
     next()
 })
-
 //express session
 app.use(session({
     secret:process.env.SECRET,
@@ -37,7 +36,6 @@ app.use(session({
     saveUninitialized:true
 
 }))
-
 //passport middleware
 app.use(passport.initialize())
 app.use(passport.session())
@@ -51,14 +49,9 @@ app.use((req,res,next)=>{
     res.locals.error = req.flash('error');
     next()
 })
-
-
-
 //ejs
 app.set('view engine','ejs')
 app.use(expressLayout)
-
-
 
 //@ Login Register routes
 //@desc : routes for handling login registeration
@@ -72,10 +65,6 @@ app.use('/user',require('./routes/user.js'))
        user logout
  */
 app.use('/users', require('./routes/auth.js'));
-
-
-
-
 
 const port = process.env.PORT||5000;
 

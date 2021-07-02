@@ -99,11 +99,8 @@ router.post('/register',sanitise,(req,res)=>{
                       .catch(err=>console.log(err))
                   })
               })
-
-
           }
       })
-
    }
 })
 router.post('/login',sanitise,(req,res,next)=>{

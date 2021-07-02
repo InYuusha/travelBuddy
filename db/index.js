@@ -3,7 +3,7 @@ const mysql = require('mysql')
 const moment = require('moment')
 
 const pool = mysql.createPool({
-    host:"localhost",
+    host:"travel.cnfynhorhon5.ap-south-1.rds.amazonaws.com",
     user:"root",
     password:"*Ankush*",
     database:"user"
@@ -104,8 +104,7 @@ exports.addOne = function(req,res,next){
         
       else{
           let {title,desc,place }=req.body
-          let post_time = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
-          
+          let post_time = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss') 
         let query = `INSERT INTO posts(user_id,user_username,post_title,post_desc,post_place,post_time) VALUES(${req.userinfo.user_id},"${req.userinfo.user_username}","${title}","${desc}","${place}",'${post_time}')`
         conn.query(query,(err,result)=>{
             conn.release();
@@ -114,9 +113,8 @@ exports.addOne = function(req,res,next){
                 next()
             }
         })
-      }
-
-    })
+        }
+  })
 }
 //get All posts for a specific user
 exports.getAllPosts =function(req,res,next){
@@ -162,23 +160,17 @@ exports.removeAllPosts =function(req,res,next){
         conn.query(query,(err,result)=>{
             conn.release();
             if(err) throw err;
-            else{
-               
+            else{ 
                 next()
             }
-          
         })
     })
 }
-
-
 exports.getLimitedPosts =function(req,res,next){
     pool.getConnection((err,conn)=>{
         if(err) throw err;
-       
         else{ let uid = req.userinfo.user_id
             let query = `SELECT * FROM posts WHERE user_id!=${uid} ORDER BY post_id DESC LIMIT 20`
-
             conn.query(query,(err,result)=>{
                 conn.release();
                 if(err) throw err;
@@ -186,20 +178,14 @@ exports.getLimitedPosts =function(req,res,next){
                     req.posts = result;
                     next()
                 }
-              
             })
         }
- 
     })
 }
 exports.getLimitedUsers =  function(req,res,next){
-
     pool.getConnection((err,conn)=>{
-        if(err) throw err;
-        
+        if(err) throw err; 
       else{
-          
-          
         username = (req.params.uid?req.params.uid:req.user.username);
         let query = `SELECT * FROM userinfo WHERE user_username!='${username}' ORDER BY user_id DESC LIMIT 5`
         conn.query(query,(err,result)=>{
