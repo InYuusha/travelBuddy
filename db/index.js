@@ -3,9 +3,9 @@ const mysql = require('mysql')
 const moment = require('moment')
 
 const pool = mysql.createPool({
-    host:"travel.cnfynhorhon5.ap-south-1.rds.amazonaws.com",
+    host:"",
     user:"root",
-    password:"*Ankush*",
+    password:"",
     database:"user"
 
 })
