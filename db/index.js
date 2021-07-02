@@ -201,3 +201,17 @@ exports.getLimitedUsers =  function(req,res,next){
     })
 
 }
+exports.removeOnePost =function(req,res,next){
+    pool.getConnection((err,conn)=>{
+        if(err) throw err;
+        let query = `DELETE FROM posts WHERE post_id=${req.query.post_id}`
+
+        conn.query(query,(err,result)=>{
+            conn.release();
+            if(err) throw err;
+            else{ 
+                next()
+            }
+        })
+    })
+}
